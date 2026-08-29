@@ -1,0 +1,15 @@
+{
+  "name": "react-zustand-marketplace",
+  "description": "Single-plugin marketplace for the react-zustand skill family plugin.",
+  "owner": {
+    "name": "Kareem Alkassem",
+    "email": "kareem.alkassem2005@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "react-zustand",
+      "source": "./",
+      "description": "React+Vite+Zustand skill family, boundary-review agent, scaffolding command, eslint hook."
+    }
+  ]
+}
