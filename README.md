@@ -6,14 +6,50 @@ These are not textbook React conventions. They were **extracted from a shipped p
 
 ## Install
 
-The repo is its own single-plugin marketplace:
+The repo is its own single-plugin marketplace, so installing it takes two lines
+from anywhere — no clone, no path:
 
 ```
-claude plugin marketplace add <path-or-github-url-to-this-repo>
+claude plugin marketplace add kareemalkassem/react-zustand-skill
 claude plugin install react-zustand@react-zustand-marketplace
 ```
 
-Or interactively inside Claude Code: `/plugin marketplace add …` then `/plugin install react-zustand`.
+Or interactively inside Claude Code: `/plugin marketplace add kareemalkassem/react-zustand-skill`
+then `/plugin install react-zustand`.
+
+Install it **once per machine** and it is available in every React project you
+open — the skills trigger on the task, not on the repo you happen to be in.
+
+### Using it
+
+Nothing to invoke. Once installed, the skills fire on their own triggers:
+
+| You say | What loads |
+|---|---|
+| "add a products section" | `feature-template` → scaffolds service + store + pages + route |
+| "why does this page re-render constantly" | `debugging` + `performance` |
+| "wire up login" | `auth-session` + `networking` |
+| "review this" (after a change) | the `react-reviewer` agent |
+| anything touching `store/`, `services/`, `pages/` | `core`, always-on |
+
+Explicit entry points when you want them:
+
+```
+/react-feature orders            # scaffold a whole module
+/react-feature coupons --read-only
+```
+
+### Updating
+
+```
+claude plugin marketplace update react-zustand-marketplace
+claude plugin install react-zustand@react-zustand-marketplace
+```
+
+### Verify it took
+
+`/plugin` lists installed plugins; `react-zustand` should show 17 skills, one
+agent, and one command.
 
 ## The prescribed stack
 

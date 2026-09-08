@@ -27,6 +27,18 @@ const warnings = [];
 const fail = (msg) => errors.push(msg);
 const warn = (msg) => warnings.push(msg);
 
+/**
+ * Normalize CRLF before any parsing.
+ *
+ * JS treats a carriage return as a line terminator, so in /^key:\s?(.*)$/
+ * the `.*` stops before a trailing CR and `$` then fails to match. On a CRLF
+ * checkout every `description:` line was silently folded into `name:` and the
+ * validator reported 34 phantom errors. Windows clones hit this; LF clones
+ * never do -- exactly the kind of bug that only appears on someone else's
+ * machine.
+ */
+const lf = (source) => source.split('\r\n').join('\n');
+
 /** Parse flat `key: value` frontmatter. No YAML dependency: the schema is two keys. */
 const parseFrontmatter = (source) => {
   if (!source.startsWith('---')) return null;
@@ -74,7 +86,7 @@ for (const dir of skillDirs) {
     continue;
   }
 
-  const source = fs.readFileSync(skillPath, 'utf8');
+  const source = lf(fs.readFileSync(skillPath, 'utf8'));
   const meta = parseFrontmatter(source);
 
   if (!meta) {
@@ -108,7 +120,7 @@ for (const dir of skillDirs) {
 if (!fs.existsSync(README)) {
   fail('README.md not found');
 } else {
-  const readme = fs.readFileSync(README, 'utf8');
+  const readme = lf(fs.readFileSync(README, 'utf8'));
 
   const claim = /family of \*\*(\d+) focused skills\*\*|family of (\d+) skills/.exec(readme);
   if (!claim) {
