@@ -1,6 +1,6 @@
 # react-zustand-skill
 
-A [Claude Code plugin](https://code.claude.com/docs/en/plugins-reference) bundling a family of **17 focused skills** for building React SPAs with Vite, Zustand, react-router, axios, and CSS Modules — plus a convention-review agent, a feature-scaffolding command, and an eslint-fix-on-edit hook. Each skill lives in `skills/react-zustand-<name>/` with a `SKILL.md` and triggers independently based on the task at hand; no single skill tries to cover everything.
+A [Claude Code plugin](https://code.claude.com/docs/en/plugins-reference) bundling a family of **24 focused skills** for building React SPAs with Vite, Zustand, react-router, axios, and CSS Modules — from project planning and mock-first development through real-time, Arabic/RTL, Playwright verification, and Three.js 3D views — plus a convention-review agent, a feature-scaffolding command, and an eslint-fix-on-edit hook. Each skill lives in `skills/react-zustand-<name>/` with a `SKILL.md` and triggers independently based on the task at hand; no single skill tries to cover everything.
 
 These are not textbook React conventions. They were **extracted from a shipped production admin dashboard** — roughly 34,000 lines across 171 files, 55 lazy-loaded pages, 24 services, 15 stores, 10 UI primitives, 37 CSS modules — and then corrected where that codebase got it wrong. `skills/react-zustand-core/references/extraction-notes.md` tags every convention as **verified**, **corrected**, or **recommended** so a reader can tell a field-proven pattern from a sound default.
 
@@ -30,6 +30,12 @@ Nothing to invoke. Once installed, the skills fire on their own triggers:
 | "why does this page re-render constantly" | `debugging` + `performance` |
 | "wire up login" | `auth-session` + `networking` |
 | "review this" (after a change) | the `react-reviewer` agent |
+| "start a new admin dashboard" | `project-workflow` → planning docs, milestones, definition of done |
+| "there is no backend yet" | `mock-api` |
+| "make the queue update live" | `realtime` |
+| "add Arabic" / "fix RTL" | `i18n-rtl` |
+| "check it in the browser" / "smoke test" | `e2e-playwright` |
+| "add a 3D product viewer" | `3d-scenes` + `3d-assets` |
 | anything touching `store/`, `services/`, `pages/` | `core`, always-on |
 
 Explicit entry points when you want them:
@@ -48,7 +54,7 @@ claude plugin install react-zustand@react-zustand-marketplace
 
 ### Verify it took
 
-`/plugin` lists installed plugins; `react-zustand` should show 17 skills, one
+`/plugin` lists installed plugins; `react-zustand` should show 24 skills, one
 agent, and one command.
 
 ## The prescribed stack
@@ -78,7 +84,7 @@ Plus one contract that most codebases leave implicit: **reads swallow into `erro
 
 | Component | What it does |
 |---|---|
-| `skills/` (17) | The react-zustand skill family — see table below |
+| `skills/` (24) | The react-zustand skill family — see table below |
 | `agents/react-reviewer.md` | Subagent that reviews a React diff against these conventions (boundaries, selectors, error contract, styling drift) with 🔴🟠🟡🔵 severities |
 | `commands/react-feature.md` | `/react-feature <name>` — scaffolds service + store + list page + form page + styles + route via the feature-template skill |
 | `hooks/hooks.json` | PostToolUse hook: runs `eslint --fix` on any JS/JSX file Claude edits (never blocks) |
@@ -102,15 +108,22 @@ Plus one contract that most codebases leave implicit: **reads swallow into `erro
 | [`react-zustand-feature-template`](skills/react-zustand-feature-template/SKILL.md) | "Create a new feature" — full service+store+page+styles+route scaffold with `.tpl` templates. |
 | [`react-zustand-testing`](skills/react-zustand-testing/SKILL.md) | Vitest + RTL setup, testing store actions, mocking the axios instance, the 422 path, fake timers. |
 | [`react-zustand-performance`](skills/react-zustand-performance/SKILL.md) | Re-render diagnosis, selector scoping, Vite chunking, long lists, images, profiling. |
-| [`react-zustand-gotchas`](skills/react-zustand-gotchas/SKILL.md) | The consolidated 64-entry anti-pattern list. Read before a review or a refactor. |
+| [`react-zustand-gotchas`](skills/react-zustand-gotchas/SKILL.md) | The consolidated 78-entry anti-pattern list. Read before a review or a refactor. |
 | [`react-zustand-api-contract`](skills/react-zustand-api-contract/SKILL.md) | Frontend/backend drift — parity scripting, mirrored enums, generating services from a spec. |
 | [`react-zustand-debugging`](skills/react-zustand-debugging/SKILL.md) | Symptom decision trees — render loops, stale stores, 401 loops, blank pages, dev-vs-prod breaks. |
+| [`react-zustand-project-workflow`](skills/react-zustand-project-workflow/SKILL.md) | New project order of work — FOUNDATION / EXECUTION_PLAN / TRACKER / CLAUDE.md templates, milestones, bottom-up wiring, definition of done. |
+| [`react-zustand-mock-api`](skills/react-zustand-mock-api/SKILL.md) | Mock-first development — an axios adapter returning the real envelope, seed data, personas, latency, 403/422, switching to the real backend. |
+| [`react-zustand-realtime`](skills/react-zustand-realtime/SKILL.md) | Live screens — subscription contract, store `connect`/`disconnect`, resync on reconnect, stale indicator, Reverb/Echo, polling. |
+| [`react-zustand-i18n-rtl`](skills/react-zustand-i18n-rtl/SKILL.md) | Locale store, `dir` on `<html>`, translation keys, logical CSS properties, `Intl` formatting, locale header. |
+| [`react-zustand-e2e-playwright`](skills/react-zustand-e2e-playwright/SKILL.md) | Driving the app — smoke script, per-persona screenshots, blank-page diagnosis, CI. Ships `.tpl` scripts. |
+| [`react-zustand-3d-scenes`](skills/react-zustand-3d-scenes/SKILL.md) | Three.js / React Three Fiber — canvas setup, store vs frame loop, performance rules, WebGL vs WebGPU, accessibility, verification. |
+| [`react-zustand-3d-assets`](skills/react-zustand-3d-assets/SKILL.md) | GLB pipeline — export, `gltf-transform` inspect and targeted compression, `gltfjsx`, decoders, caching, budgets. |
 
 ## Design
 
 - **`react-zustand-core` stays small** because it fires on nearly every prompt; everything else triggers narrowly on its own concern and is loaded only when relevant.
 - Skills cross-reference each other by name rather than duplicating content — `core` points at `gotchas` for the full anti-pattern list, at `networking` for interceptor detail, and so on.
-- `feature-template` and `testing` ship `.tpl` placeholder files under `templates/` for scaffold generation.
+- `feature-template`, `testing`, `project-workflow`, and `e2e-playwright` ship `.tpl` placeholder files under `templates/` for scaffold generation.
 - Findings from the source codebase are marked **[observed]** in `gotchas` so a real defect is distinguishable from a hypothetical one.
 
 ## Validating

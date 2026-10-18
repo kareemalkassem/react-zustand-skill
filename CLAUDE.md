@@ -25,7 +25,7 @@ This repo IS a Claude Code plugin (`react-zustand`). Everything under `skills/`,
 ## Layout
 
 - `.claude-plugin/` — plugin + marketplace manifests
-- `skills/` — the 17 `react-zustand-*` skills (a `SKILL.md` each)
+- `skills/` — the 24 `react-zustand-*` skills (a `SKILL.md` each)
 - `skills/react-zustand-core/references/extraction-notes.md` — provenance ledger
 - `agents/react-reviewer.md` — convention-review subagent
 - `commands/react-feature.md` — `/react-feature` scaffolding command

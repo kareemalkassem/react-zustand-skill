@@ -298,6 +298,13 @@ Load these only when the task touches their concern — do not pre-load:
 - `react-zustand-gotchas` — anti-pattern reference; read when designing or reviewing.
 - `react-zustand-api-contract` — keeping service URLs in parity with the backend.
 - `react-zustand-debugging` — symptom decision trees.
+- `react-zustand-project-workflow` — new-project planning, milestones, definition of done.
+- `react-zustand-mock-api` — building against a mock that returns the real envelope.
+- `react-zustand-realtime` — live screens via subscriptions owned by a store.
+- `react-zustand-i18n-rtl` — locales, translation keys, RTL layout, `Intl` formatting.
+- `react-zustand-e2e-playwright` — smoke runs, persona screenshots, blank-page probes.
+- `react-zustand-3d-scenes` — Three.js / React Three Fiber views.
+- `react-zustand-3d-assets` — preparing GLB models for the web.
 
 `references/extraction-notes.md` records which conventions here were verified
 against a shipped production codebase and which are general React practice.
