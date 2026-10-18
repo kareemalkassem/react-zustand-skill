@@ -1,6 +1,6 @@
 ---
 name: react-reviewer
-description: Use after writing or modifying React code in a React+Zustand project to review it against the codified conventions — layer-boundary violations, selector scoping, store error contract, styling drift, routing and permission gaps. Trigger on "review this React code", after a feature is implemented, or before a commit touching src/.
+description: Use after writing or modifying React code in a React+Zustand project to review it against the codified conventions — layer-boundary violations, selector scoping, store error contract, styling drift, routing and permission gaps, mock/real-time lifecycle, RTL, and React Three Fiber frame-loop misuse. Trigger on "review this React code", after a feature is implemented, or before a commit touching src/.
 tools: Read, Grep, Glob, Bash
 ---
 
@@ -85,6 +85,32 @@ whole codebase does it that way is noise.
 - A frontend check presented as a security control
 - A mirrored catalog with no comment naming its backend source
 - A permission probe that fires a write method
+
+### Mocks and real-time
+
+- Mock data branching inside a service or store instead of behind the axios adapter
+- A mock response shape that differs from the documented envelope
+- A subscription started in a component with no cleanup, or a `connect()` with no
+  already-subscribed guard
+- No REST refetch on reconnect; socket events appended instead of upserted by id
+- A live store whose `reset()` does not disconnect on logout
+
+### i18n and RTL (bilingual projects only)
+
+- A hardcoded user-visible string, `aria-label`, placeholder, or toast message
+- A key added to one locale dictionary but not the others
+- `margin-left`/`right`, `left:`/`right:`, `text-align: left` in a `.module.css`
+- `dir` set anywhere other than `<html>`
+- `toLocaleDateString()` / `toLocaleString()` without an explicit locale and time zone
+
+### 3D (projects using three.js / React Three Fiber)
+
+- `setState` or a store setter called inside `useFrame` or `onPointerMove`
+- `new THREE.Vector3()` / `new THREE.Color()` (or any allocation) inside `useFrame`
+- three.js or `@react-three/*` imported from a non-lazy module
+- A `<Canvas>` with no `fallback`, or a 3D-only action with no DOM equivalent
+- A material or geometry created per render instead of shared
+- A `.glb` added under `public/` without a note that it went through the asset pipeline
 
 ## Severity
 

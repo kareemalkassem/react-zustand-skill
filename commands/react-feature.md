@@ -26,6 +26,11 @@ skill.
 
 4. **Generate bottom-up**: service → store → CSS module → list page → form page →
    route entry → nav entry → `logout` reset registration.
+   If the project is mock-first (`src/mocks/` exists or `VITE_USE_MOCKS` is set),
+   generate the mock handler and seed rows **first**, following
+   `react-zustand-mock-api`, so the service has something real-shaped to call.
+   If the app is bilingual, add every new string to every locale dictionary
+   (`react-zustand-i18n-rtl`).
 
 5. **Verify, do not assume.** Run `npm run lint`. Start the dev server, open the
    route, and confirm: rows render, the skeleton shows while loading, the empty
@@ -33,10 +38,13 @@ skill.
    down, one filter change produces one request rather than one per keystroke, and
    a reload restores the filters from the URL.
 
-6. **Write at least one store test** using the `react-zustand-testing` template —
+6. **Run the smoke script** if the project has one (`npm run smoke`), with the new
+   route added to its route list — see `react-zustand-e2e-playwright`.
+
+7. **Write at least one store test** using the `react-zustand-testing` template —
    including the read-swallows and write-throws cases.
 
-7. **Report what you actually observed**, endpoint by endpoint. If a step could not
+8. **Report what you actually observed**, endpoint by endpoint. If a step could not
    be run (no backend available, no dev server), say which and why. Never report
    "should work".
 

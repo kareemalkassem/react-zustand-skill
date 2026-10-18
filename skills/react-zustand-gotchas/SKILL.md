@@ -376,6 +376,85 @@ Bypasses the interceptors, so the test proves nothing about the real path.
 
 It may assert nothing. Break it deliberately once.
 
+## Project workflow and mocks
+
+### 65. Pages built before primitives
+
+The first page invents its own button, table and modal; later primitives never get
+adopted and every page drifts. Build `ui/` in M1. See `react-zustand-project-workflow`.
+
+### 66. API base URL hardcoded in components **[observed]**
+
+A LAN IP (`http://192.168.x.x:8000`) inside a page and a form breaks every other
+machine; four commits in one day changed, made dynamic, and reverted it. One
+`VITE_API_URL`, read only in `api.js`.
+
+### 67. Revert churn on `main` **[observed]**
+
+Six `Revert "..."` commits in two weeks for header and modal experiments. Try UI
+changes on a branch with a screenshot check; merge what stays.
+
+### 68. Mock data branching inside services or stores
+
+`if (USE_MOCKS) return fake` puts two code paths in every file and turns
+integration into a rewrite. Mock behind the axios adapter. See `react-zustand-mock-api`.
+
+### 69. A mock envelope that differs from the real one
+
+Stores normalize around the mock and break on the first real response.
+
+## Real-time
+
+### 70. Subscribing without cleanup or an idempotency guard
+
+Listeners survive navigation and StrictMode double-mounts; every event arrives
+twice or more. `connect()` returns early when already subscribed; the page returns
+`disconnect`. See `react-zustand-realtime`.
+
+### 71. Trusting the socket as the source of truth
+
+Events missed during a reconnect leave the list silently wrong. Refetch over REST
+on reconnect.
+
+## i18n and RTL
+
+### 72. Physical CSS properties in a bilingual app
+
+`margin-left`, `left:`, `text-align: left` mirror wrongly in RTL. Use logical
+properties. See `react-zustand-i18n-rtl`.
+
+### 73. `dir` set on a wrapper instead of `<html>`
+
+Portals (modals, toasts, menus) render outside the wrapper and stay LTR.
+
+### 74. Concatenated sentences
+
+`'Showing ' + n + ' of ' + total` cannot be reordered for Arabic grammar. Use
+placeholders in the dictionary string.
+
+## Verification
+
+### 75. "Done" without driving the app
+
+A passing build still renders a blank page when a lazy import throws. Run the
+smoke script and fail on console errors. See `react-zustand-e2e-playwright`.
+
+## 3D
+
+### 76. `setState` in `useFrame` or `onPointerMove`
+
+60 React renders a second; the page janks. Mutate refs; read fast store values
+with `getState()`. See `react-zustand-3d-scenes`.
+
+### 77. three.js imported outside a lazy chunk
+
+Every route pays the engine's download cost. Lazy-load the canvas component.
+
+### 78. Raw model exports shipped to `public/`
+
+Tens of MB and 4K textures; phones run out of GPU memory. Every GLB goes through
+`react-zustand-3d-assets`.
+
 ---
 
 ## Related skills
@@ -383,4 +462,6 @@ It may assert nothing. Break it deliberately once.
 Each section maps to a skill with the full treatment: `react-zustand-core`,
 `-networking`, `-state`, `-routing`, `-ui-conventions`, `-design-tokens`,
 `-auth-session`, `-permissions`, `-data-tables`, `-forms-validation`,
-`-assets-media`, `-performance`, `-testing`, `-api-contract`, `-debugging`.
+`-assets-media`, `-performance`, `-testing`, `-api-contract`, `-debugging`,
+`-project-workflow`, `-mock-api`, `-realtime`, `-i18n-rtl`, `-e2e-playwright`,
+`-3d-scenes`, `-3d-assets`.
