@@ -9,7 +9,7 @@
     {
       "name": "react-zustand",
       "source": "./",
-      "description": "React+Vite+Zustand skill family, boundary-review agent, scaffolding command, eslint hook."
+      "description": "React+Vite+Zustand skill family (incl. mock-first, real-time, RTL, Playwright, Three.js), boundary-review agent, scaffolding command, eslint hook."
     }
   ]
 }

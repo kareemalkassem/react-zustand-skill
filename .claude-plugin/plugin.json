@@ -1,7 +1,7 @@
 {
   "name": "react-zustand",
-  "version": "1.0.0",
-  "description": "17-skill React+Vite+Zustand convention family (four-boundary architecture, one axios instance, CSS-Module design tokens, routing, auth, permissions, data tables, forms, testing, performance) plus a boundary-review agent, /react-feature scaffolding command, and an eslint-fix-on-edit hook.",
+  "version": "1.1.0",
+  "description": "24-skill React+Vite+Zustand convention family (project workflow, four-boundary architecture, one axios instance, mock-first API, CSS-Module design tokens, routing, auth, permissions, data tables, forms, real-time, i18n/RTL, testing, Playwright verification, performance, Three.js 3D scenes and assets) plus a boundary-review agent, /react-feature scaffolding command, and an eslint-fix-on-edit hook.",
   "author": {
     "name": "Kareem Alkassem",
     "email": "kareem.alkassem2005@gmail.com"
